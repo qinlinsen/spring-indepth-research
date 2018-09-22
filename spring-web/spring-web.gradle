@@ -17,6 +17,8 @@ dependencyManagement {
 dependencies {
 	compile(project(":spring-beans"))
 	compile(project(":spring-core"))
+
+
 	optional(project(":spring-aop"))
 	optional(project(":spring-context"))
 	optional(project(":spring-oxm"))
@@ -83,6 +85,32 @@ dependencies {
 	testCompile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
 	testCompile("org.skyscreamer:jsonassert:1.5.0")
 	testCompile("org.xmlunit:xmlunit-matchers:2.5.1")
+	// https://mvnrepository.com/artifact/org.reactivestreams/reactive-streams
+	// https://mvnrepository.com/artifact/org.reactivestreams/reactive-streams
+	compile group: 'org.reactivestreams', name: 'reactive-streams', version: '1.0.1'
+	// https://mvnrepository.com/artifact/io.projectreactor/reactor-test
+	testCompile group: 'io.projectreactor', name: 'reactor-test', version: '3.2.0.RELEASE'
+	// https://mvnrepository.com/artifact/io.projectreactor/reactor-core
+	compile group: 'io.projectreactor', name: 'reactor-core', version: '3.2.0.RELEASE'
+	// https://mvnrepository.com/artifact/com.fasterxml/aalto-xml
+	compile group: 'com.fasterxml', name: 'aalto-xml', version: '1.1.0'
+	// https://mvnrepository.com/artifact/io.projectreactor.ipc/reactor-netty
+	compile group: 'io.projectreactor.ipc', name: 'reactor-netty', version: '0.7.9.RELEASE'
+	// https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+	provided group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+	// https://mvnrepository.com/artifact/io.undertow/undertow-servlet
+	compile group: 'io.undertow', name: 'undertow-servlet', version: '2.0.13.Final'
+	// https://mvnrepository.com/artifact/io.undertow/undertow-core
+	compile group: 'io.undertow', name: 'undertow-core', version: '2.0.13.Final'
+	// https://mvnrepository.com/artifact/org.apache.commons/org.apache.commons.logging
+	// https://mvnrepository.com/artifact/commons-logging/commons-logging
+	compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
+	// https://mvnrepository.com/artifact/io.undertow/undertow-websockets-jsr
+	compile group: 'io.undertow', name: 'undertow-websockets-jsr', version: '2.0.13.Final'
+	// https://mvnrepository.com/artifact/org.jboss.xnio.netty/netty-xnio-transport
+	compile group: 'org.jboss.xnio.netty', name: 'netty-xnio-transport', version: '0.1.6.Final'
+
+
 	testRuntime("com.sun.mail:javax.mail:1.6.1")
 	testRuntime("com.sun.xml.bind:jaxb-core:2.3.0")
 	testRuntime("com.sun.xml.bind:jaxb-impl:2.3.0")
