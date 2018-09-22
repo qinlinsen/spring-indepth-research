@@ -9,6 +9,16 @@ public class Dog {
 	private String name;
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
+	@JSONField(serialize = false)
+	private String remarks;
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 
 	public Date getCreateTime() {
 		return createTime;

@@ -247,4 +247,7 @@ public abstract class HttpServletBean extends HttpServlet implements Environment
 		}
 	}
 
+	public static void main(String[] args) {
+
+	}
 }

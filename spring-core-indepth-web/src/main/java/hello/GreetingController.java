@@ -26,15 +26,16 @@ public class GreetingController {
 	}
 
 	/**
-	 * spring boot 默认使用的json解析框架是jackson .!
+	 * spring boot 默认使用的json解析框架是jackson !
 	 * @return
 	 */
 	@RequestMapping("/getDog")
 	public Dog dog(){
 		Dog dog = new Dog();
-		dog.setAge(10);
-		dog.setName("pug");
+		dog.setAge(1034443);
+		dog.setName("pug12oweoiooioi45667567678778888556666677777777");
 		dog.setCreateTime(new Date());
+		dog.setRemarks("备注");
 		return  dog;
 	}
 }

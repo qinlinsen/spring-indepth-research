@@ -334,4 +334,15 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 		}
 	}
 
+	public static void main(String[] args) {
+		Student student = new Student();
+		student.setAge(1);
+		student.setName("oewio");
+		BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(student);
+		Object age = beanWrapper.getPropertyValue("age");
+		PropertyDescriptor name = beanWrapper.getPropertyDescriptor("name");
+		System.out.println("age="+age);
+		System.out.println("name="+name);
+		System.out.println(beanWrapper);
+	}
 }
