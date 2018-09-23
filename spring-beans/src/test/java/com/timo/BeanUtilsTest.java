@@ -16,7 +16,7 @@ public class BeanUtilsTest {
 		studentBeanWrapper.setPropertyValue(new PropertyValue("name","Abraham Qin"));
 		studentBeanWrapper.setPropertyValue("age",1);
 		StringBuilder sb = new StringBuilder();
-		sb.append("the student name is :").append(student.getName()).append("age is :").append(student.getAge());
+		sb.append("the student name is :").append(student.getName()).append(" age is :").append(student.getAge());
 		System.out.println(String.valueOf(sb));
 
 	}
