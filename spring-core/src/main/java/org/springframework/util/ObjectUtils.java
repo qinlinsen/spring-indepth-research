@@ -976,4 +976,9 @@ public abstract class ObjectUtils {
 		return sb.toString();
 	}
 
+	public static void main(String[] args) {
+		//测试null与null相等
+		System.out.println(ObjectUtils.nullSafeEquals(null,null));
+		System.out.println(null==null);
+	}
 }
