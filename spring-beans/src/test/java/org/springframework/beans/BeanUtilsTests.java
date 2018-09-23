@@ -47,7 +47,12 @@ public class BeanUtilsTests {
 	@Test
 	public void testInstantiateClass() {
 		// give proper class
-		BeanUtils.instantiateClass(ArrayList.class);
+		ArrayList arrayList = BeanUtils.instantiateClass(ArrayList.class);
+		arrayList.add(1);
+		arrayList.add(2);
+		for(Object element:arrayList){
+			System.out.println(element);
+		}
 
 		try {
 			// give interface

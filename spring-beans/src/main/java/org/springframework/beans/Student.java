@@ -20,4 +20,12 @@ public class Student {
 	public void setAge(Integer age) {
 		this.age = age;
 	}
+
+	public Student(String name, Integer age) {
+		this.name = name;
+		this.age = age;
+	}
+
+	public Student() {
+	}
 }
