@@ -523,6 +523,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	protected WebApplicationContext initWebApplicationContext() {
 		WebApplicationContext rootContext =
 				WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+		System.out.println("rootContext="+rootContext);
 		WebApplicationContext wac = null;
 
 		if (this.webApplicationContext != null) {
@@ -558,6 +559,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 			// Either the context is not a ConfigurableApplicationContext with refresh
 			// support or the context injected at construction time had already been
 			// refreshed -> trigger initial onRefresh manually here.
+			//DispatcherServlet的切入点
 			onRefresh(wac);
 		}
 
@@ -642,6 +644,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 
 	protected void configureAndRefreshWebApplicationContext(ConfigurableWebApplicationContext wac) {
 		if (ObjectUtils.identityToString(wac).equals(wac.getId())) {
+			System.out.println(wac.getId());
 			// The application context id is still set to its original default value
 			// -> assign a more useful id based on available information
 			if (this.contextId != null) {

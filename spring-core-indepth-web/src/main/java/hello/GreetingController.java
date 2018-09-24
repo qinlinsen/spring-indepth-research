@@ -1,6 +1,8 @@
 package hello;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.timo.model.Dog;
@@ -9,6 +11,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +28,15 @@ public class GreetingController implements EnvironmentAware,ApplicationContextAw
 
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        return new Greeting(counter.incrementAndGet(),
+		ClassPathResource resource = new ClassPathResource("/propertiesFiles/test.properties", getClass());
+		try {
+			Properties properties = PropertiesLoaderUtils.loadProperties(resource);
+			Object a = properties.get("a");
+			System.out.println(String.valueOf(a));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new Greeting(counter.incrementAndGet(),
                             String.format(template, name));
     }
 

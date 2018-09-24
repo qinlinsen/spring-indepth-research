@@ -28,4 +28,7 @@ dependencies {
 	testRuntime("javax.xml.bind:jaxb-api:2.3.0")
 	testRuntime("org.glassfish:javax.el:3.0.1-b08")
 	testRuntime("org.javamoney:moneta:1.2.1")
+	// https://mvnrepository.com/artifact/junit/junit
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+
 }

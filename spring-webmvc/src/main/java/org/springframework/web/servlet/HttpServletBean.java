@@ -20,6 +20,7 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
@@ -151,11 +152,14 @@ public abstract class HttpServletBean extends HttpServlet implements Environment
 		}
 
 		// Set bean properties from init parameters.
-		PropertyValues pvs = new ServletConfigPropertyValues(getServletConfig(), this.requiredProperties);
+		ServletConfig servletConfig = getServletConfig();
+		System.out.println("servletConfig="+servletConfig);
+		ServletContext servletContext = getServletContext();
+		PropertyValues pvs = new ServletConfigPropertyValues(servletConfig, this.requiredProperties);
 		if (!pvs.isEmpty()) {
 			try {
 				BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(this);
-				ResourceLoader resourceLoader = new ServletContextResourceLoader(getServletContext());
+				ResourceLoader resourceLoader = new ServletContextResourceLoader(servletContext);
 				bw.registerCustomEditor(Resource.class, new ResourceEditor(resourceLoader, getEnvironment()));
 				initBeanWrapper(bw);
 				bw.setPropertyValues(pvs, true);
