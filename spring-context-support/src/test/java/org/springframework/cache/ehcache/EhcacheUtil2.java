@@ -2,9 +2,7 @@ package org.springframework.cache.ehcache;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
-import org.ehcache.core.EhcacheManager;
 
 import java.net.URL;
 
