@@ -89,4 +89,8 @@ public class EhCacheCacheTests extends AbstractCacheTests<EhCacheCache> {
 		assertNull(cache.get(key));
 	}
 
+	@Test
+	public void test(){
+
+	}
 }

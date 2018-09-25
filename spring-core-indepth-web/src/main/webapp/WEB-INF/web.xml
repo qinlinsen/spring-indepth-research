@@ -4,6 +4,9 @@
 
 <web-app>
   <display-name>spring source</display-name>
+	<listener>
+		<listener-class>com.timo.listener.DispatcherServletContextListener</listener-class>
+	</listener>
 	<servlet>
 		<servlet-name>dispatcherServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

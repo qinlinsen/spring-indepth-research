@@ -46,6 +46,7 @@ public abstract class AbstractCacheTests<T extends Cache> {
 
 	@Test
 	public void testCacheName() throws Exception {
+		System.out.println(getCache().getName());
 		assertEquals(CACHE_NAME, getCache().getName());
 	}
 
