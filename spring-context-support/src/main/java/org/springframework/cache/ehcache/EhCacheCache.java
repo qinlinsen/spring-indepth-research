@@ -83,7 +83,8 @@ public class EhCacheCache implements Cache {
 		else {
 			this.cache.acquireWriteLockOnKey(key);
 			try {
-				element = lookup(key);  // one more attempt with the write lock
+				// one more attempt with the write lock
+				element = lookup(key);
 				if (element != null) {
 					return (T) element.getObjectValue();
 				}
