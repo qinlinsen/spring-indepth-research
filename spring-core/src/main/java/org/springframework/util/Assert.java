@@ -668,4 +668,7 @@ public abstract class Assert {
 		return (messageSupplier != null ? messageSupplier.get() : null);
 	}
 
+	public static void main(String[] args) {
+		Assert.state(3==5,"3 is not equal to 5");
+	}
 }
