@@ -87,7 +87,11 @@ public class AutowiredAnnotationBeanPostProcessorTests {
 		bf.addBeanPostProcessor(bpp);
 		bf.registerBeanDefinition("testBean", new GenericBeanDefinition());
 		try {
-			bf.getBean("testBean");
+			Object genericBeanDefinition=  bf.getBean("testBean");
+			if(GenericBeanDefinition.class.isInstance(genericBeanDefinition)){
+				GenericBeanDefinition ge=	(GenericBeanDefinition)genericBeanDefinition;
+				System.out.println(ge.getBeanClass());
+			}
 			fail("Should have thrown BeanCreationException");
 		}
 		catch (BeanCreationException ex) {

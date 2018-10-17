@@ -16,31 +16,23 @@
 
 package org.springframework.core.annotation;
 
-import java.lang.annotation.Annotation;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.subpackage.NonPublicAnnotatedClass;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
-import static java.util.Arrays.*;
-import static java.util.stream.Collectors.*;
+import java.lang.annotation.*;
+import java.lang.reflect.Method;
+import java.util.*;
+
+import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.springframework.core.annotation.AnnotationUtils.*;
@@ -70,6 +62,16 @@ public class AnnotationUtilsTests {
 	@Test
 	public void findMethodAnnotationOnLeaf() throws Exception {
 		Method m = Leaf.class.getMethod("annotatedOnLeaf");
+		Annotation[] annotations = m.getAnnotations();
+		for(Annotation annotation:annotations){
+			System.out.println(annotation.annotationType());
+			if(annotation.annotationType()==Order.class){
+				System.out.println("这个annotation是Order");
+			}
+		}
+		Order annotation = AnnotationUtils.findAnnotation(m, Order.class);
+		System.out.println("annotation="+annotation);
+		System.out.println(AnnotationUtils.getAnnotation(m,"order"));
 		assertNotNull(m.getAnnotation(Order.class));
 		assertNotNull(getAnnotation(m, Order.class));
 		assertNotNull(findAnnotation(m, Order.class));
@@ -131,8 +133,15 @@ public class AnnotationUtilsTests {
 	}
 
 	@Test
+	public void testClassUtils(){
+		System.out.println(ClassUtils.getDefaultClassLoader());
+	}
+
+	@Test
 	public void findMethodAnnotationNotAnnotated() throws Exception {
 		Method m = Leaf.class.getMethod("notAnnotated");
+		Order annotation = AnnotationUtils.findAnnotation(m, Order.class);
+		System.out.println(annotation);
 		assertNull(findAnnotation(m, Order.class));
 	}
 
@@ -154,7 +163,18 @@ public class AnnotationUtilsTests {
 		assertNotNull(getAnnotation(bridgeMethod, Transactional.class));
 		assertNotNull(findAnnotation(bridgeMethod, Transactional.class));
 	}
-
+	@Test
+	public void testMapForEachMethod(){
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("1","a");
+		map.put("2","b");
+		map.put("3","c");
+		map.put("4","d");
+		map.put("5","f");
+		map.forEach((key,value)->{
+			System.out.println(String.format("%s=%s",key,value));
+		});
+	}
 	@Test
 	public void findMethodAnnotationOnBridgedMethod() throws Exception {
 		Method bridgedMethod = SimpleFoo.class.getMethod("something", String.class);
@@ -174,6 +194,8 @@ public class AnnotationUtilsTests {
 	@Test
 	public void findMethodAnnotationFromInterface() throws Exception {
 		Method method = ImplementsInterfaceWithAnnotatedMethod.class.getMethod("foo");
+		Override annotation = AnnotationUtils.findAnnotation(method, Override.class);
+		System.out.println(annotation);
 		Order order = findAnnotation(method, Order.class);
 		assertNotNull(order);
 	}
@@ -319,6 +341,8 @@ public class AnnotationUtilsTests {
 		assertNull(findAnnotationDeclaringClassForTypes(transactionalCandidateList, NonAnnotatedClass.class));
 
 		// inherited class-level annotation; note: @Transactional is inherited
+		Class<?> annotationDeclaringClassForTypes = AnnotationUtils.findAnnotationDeclaringClassForTypes(transactionalCandidateList, InheritedAnnotationInterface.class);
+		System.out.println(annotationDeclaringClassForTypes);
 		assertEquals(InheritedAnnotationInterface.class,
 				findAnnotationDeclaringClassForTypes(transactionalCandidateList, InheritedAnnotationInterface.class));
 		assertNull(findAnnotationDeclaringClassForTypes(transactionalCandidateList, SubInheritedAnnotationInterface.class));
@@ -382,6 +406,7 @@ public class AnnotationUtilsTests {
 		assertFalse(isAnnotationDeclaredLocally(Transactional.class, NonAnnotatedClass.class));
 
 		// inherited class-level annotation; note: @Transactional is inherited
+		System.out.println(AnnotationUtils.isAnnotationDeclaredLocally(Order.class,OrderTest.class));
 		assertTrue(isAnnotationDeclaredLocally(Transactional.class, InheritedAnnotationInterface.class));
 		assertFalse(isAnnotationDeclaredLocally(Transactional.class, SubInheritedAnnotationInterface.class));
 		assertTrue(isAnnotationDeclaredLocally(Transactional.class, InheritedAnnotationClass.class));
@@ -444,6 +469,7 @@ public class AnnotationUtilsTests {
 
 	@Test
 	public void getAnnotationAttributesWithAttributeAliases() throws Exception {
+//		@WebMapping(value = "/test", name = "foo")
 		Method method = WebController.class.getMethod("handleMappedWithValueAttribute");
 		WebMapping webMapping = method.getAnnotation(WebMapping.class);
 		AnnotationAttributes attributes = (AnnotationAttributes) getAnnotationAttributes(webMapping);
@@ -452,7 +478,7 @@ public class AnnotationUtilsTests {
 		assertEquals("name attribute: ", "foo", attributes.getString("name"));
 		assertArrayEquals("value attribute: ", asArray("/test"), attributes.getStringArray(VALUE));
 		assertArrayEquals("path attribute: ", asArray("/test"), attributes.getStringArray("path"));
-
+//		@WebMapping(path = "/test", name = "bar", method = { RequestMethod.GET, RequestMethod.POST })
 		method = WebController.class.getMethod("handleMappedWithPathAttribute");
 		webMapping = method.getAnnotation(WebMapping.class);
 		attributes = (AnnotationAttributes) getAnnotationAttributes(webMapping);
@@ -485,6 +511,7 @@ public class AnnotationUtilsTests {
 
 	@Test
 	public void getValueFromNonPublicAnnotation() throws Exception {
+//		@NonPublicAnnotation(42)
 		Annotation[] declaredAnnotations = NonPublicAnnotatedClass.class.getDeclaredAnnotations();
 		assertEquals(1, declaredAnnotations.length);
 		Annotation annotation = declaredAnnotations[0];
@@ -496,15 +523,17 @@ public class AnnotationUtilsTests {
 
 	@Test
 	public void getDefaultValueFromAnnotation() throws Exception {
+//		@Order(1)
 		Method method = SimpleFoo.class.getMethod("something", Object.class);
 		Order order = findAnnotation(method, Order.class);
-
+		System.out.println(getDefaultValue(order,"value"));
 		assertEquals(Ordered.LOWEST_PRECEDENCE, getDefaultValue(order, VALUE));
 		assertEquals(Ordered.LOWEST_PRECEDENCE, getDefaultValue(order));
 	}
 
 	@Test
 	public void getDefaultValueFromNonPublicAnnotation() throws Exception {
+//		@NonPublicAnnotation(42)
 		Annotation[] declaredAnnotations = NonPublicAnnotatedClass.class.getDeclaredAnnotations();
 		assertEquals(1, declaredAnnotations.length);
 		Annotation annotation = declaredAnnotations[0];
@@ -1701,6 +1730,9 @@ public class AnnotationUtilsTests {
 
 	@Transactional
 	public interface InheritedAnnotationInterface {
+	}
+	@Order
+	public interface OrderTest {
 	}
 
 	public interface SubInheritedAnnotationInterface extends InheritedAnnotationInterface {

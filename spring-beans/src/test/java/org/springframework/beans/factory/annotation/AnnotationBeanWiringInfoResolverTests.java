@@ -71,7 +71,7 @@ public class AnnotationBeanWiringInfoResolverTests {
 	}
 
 
-	@Configurable()
+	@Configurable(autowire = Autowire.BY_NAME, value = "renmin")
 	private static class Soap {
 	}
 
