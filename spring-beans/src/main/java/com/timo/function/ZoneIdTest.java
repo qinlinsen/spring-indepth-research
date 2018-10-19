@@ -2,6 +2,7 @@ package com.timo.function;
 
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 /**
  * @author Abraham Qin
@@ -16,6 +17,8 @@ public class ZoneIdTest {
 
 		LocalTime berlinLocalTime = LocalTime.now(berlin);
 		LocalTime shanghaiLocalTime = LocalTime.now(shanghai);
-		System.out.println();
+		long hour = ChronoUnit.SECONDS.between(berlinLocalTime, shanghaiLocalTime);
+		System.out.println("hour="+hour);
+		System.out.println(21600/3600);
 	}
 }
