@@ -20,9 +20,17 @@ public class FileTest {
         Assert.state(file.isDirectory(), "This require is directory rather than file,please check you input");
 		//get all files of this directory
 		File[] files = file.listFiles();
+		iteratorDirectory(fileExtensiveName, filesWithSpecialExtensiveName, filesWithoutSpecialExtensiveName, files);
+		System.out.println("the total number of file with " + fileExtensiveName
+                + " is " + filesWithSpecialExtensiveName.size() +
+                " without the " + fileExtensiveName + " the count number is : "
+                + filesWithoutSpecialExtensiveName.size());
+    }
+
+	private static void iteratorDirectory(String fileExtensiveName, ArrayList<File> filesWithSpecialExtensiveName, ArrayList<File> filesWithoutSpecialExtensiveName, File[] files) {
 		for (File f : files) {
 			if(f.isDirectory()){
-				continue;
+				iteratorDirectory(fileExtensiveName,filesWithSpecialExtensiveName,filesWithoutSpecialExtensiveName,f.listFiles());
 			}
 			if (f.isFile()) {
 				//only ends with special extensive name can add to filesWithSpecialExtensiveName
@@ -34,14 +42,10 @@ public class FileTest {
 				}
 			}
 		}
-        System.out.println("the total number of file with " + fileExtensiveName
-                + " is " + filesWithSpecialExtensiveName.size() +
-                " without the " + fileExtensiveName + " the count number is : "
-                + filesWithoutSpecialExtensiveName.size());
-    }
+	}
 
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
         countFileNumber("D:\\cloudwalk\\IBIS3.0\\src\\main\\resources\\com\\cloudwalk\\common",".xml");
 
